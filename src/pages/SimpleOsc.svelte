@@ -3,7 +3,7 @@
     import {FMSynth, AMSynth, Loop, Transport, Oscillator, context} from "tone";
     import Oscilloscope from "../oscilloscope"
 
-    let selected = "sine4", freq = 56, play = false;
+    let selected = "sine4", freq = 56, play = false, volume;
     let osc = new Oscillator(freq, selected);
     let oscilloscope;
     let oscTypesSine = ["sine1", "sine2", "sine3", "sine4", "sine5", "sine6", "sine7", "sine8", "sine9",
@@ -48,6 +48,7 @@
         document.querySelector('button').addEventListener('click', async () => {
             osc.toDestination().start();
             play = true;
+            volume = osc.volume.value
             if (!oscilloscope) {
                 oscilloscope = new Oscilloscope('.js-oscilloscope', context);
                 document.querySelector('path').setAttribute("style", "fill: none;stroke: #000000; stroke-width: 2px;");
@@ -93,6 +94,10 @@
         }
     }
 
+    function changeVolume() {
+        osc.volume.value = volume
+    }
+
     document.addEventListener("DOMContentLoaded", ready);
 </script>
 
@@ -133,6 +138,12 @@
         <button on:click={downFreq}>down -1</button>
         <input class="range" type=range bind:value={freq} min=0 max=1000 on:change={changeFreq}>
     </p>
+    <div>
+        <label for="volume">Volume of oscillator</label>
+        <input class="range"
+               id="volume"
+               type=range bind:value={volume} min=-12 max=12 on:change={changeVolume}>
+    </div>
     <div class="js-oscilloscope"></div>
 </main>
 
