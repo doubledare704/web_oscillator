@@ -166,7 +166,7 @@
         width: 100%;
     }
 
-    @media (min-width: 640px) {
+    @media (min-width: 320px) {
         main {
             max-width: none;
         }
@@ -175,7 +175,6 @@
             width: 100%;
         }
     }
-
     .js-oscilloscope > svg > path {
         fill: none;
 
