@@ -69,6 +69,18 @@
         }
     }
 
+    function upFreq(ev, change = 1) {
+        freq += change
+        changeFreq()
+    }
+
+    function downFreq(ev, change = 1) {
+        if (freq > change) {
+            freq -= change
+            changeFreq()
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", ready);
 </script>
 
@@ -105,6 +117,8 @@
     <p>
         {selected}, {freq}, Change freq:
         <input id="freq" bind:value={freq} type="number" min="1" max="1000" on:change={changeFreq}>
+        <button on:click={upFreq}>up+1</button>
+        <button on:click={downFreq}>down -1</button>
         <input class="range" type=range bind:value={freq} min=0 max=1000 on:change={changeFreq}>
     </p>
 </main>
