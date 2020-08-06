@@ -15,3 +15,11 @@
         </Route>
     </div>
 </Router>
+<style>
+    .js-oscilloscope > svg > path {
+        fill: none;
+
+        stroke: #000000;
+        stroke-width: 2px;
+    }
+</style>

@@ -1,10 +1,11 @@
 <script>
 
-    import {FMSynth, AMSynth, Loop, Transport, Oscillator} from "tone";
+    import {FMSynth, AMSynth, Loop, Transport, Oscillator, context} from "tone";
+    import Oscilloscope from "../oscilloscope"
 
     let selected = "sine4", freq = 56, play = false;
     let osc = new Oscillator(freq, selected);
-
+    let oscilloscope;
     let oscTypesSine = ["sine1", "sine2", "sine3", "sine4", "sine5", "sine6", "sine7", "sine8", "sine9",
         "sine10", "sine11", "sine12", "sine13", "sine14", "sine15", "sine16", "sine17", "sine18", "sine19",
         "sine20", "sine21", "sine22", "sine23", "sine24", "sine25", "sine26", "sine27", "sine28", "sine29",
@@ -46,13 +47,20 @@
     function ready() {
         document.querySelector('button').addEventListener('click', async () => {
             osc.toDestination().start();
-            play = true
+            play = true;
+            if (!oscilloscope) {
+                oscilloscope = new Oscilloscope('.js-oscilloscope', context);
+                document.querySelector('path').setAttribute("style", "fill: none;stroke: #000000; stroke-width: 2px;");
+            }
+            osc.connect(oscilloscope.analyserNode);
+            oscilloscope.start();
         })
     }
 
 
     function toggleOsc() {
         osc.stop()
+        oscilloscope.stop();
     }
 
     function toggleOscType() {
@@ -62,8 +70,12 @@
     function changeFreq() {
         if (play) {
             osc.stop()
+            oscilloscope.stop()
         }
         osc = new Oscillator(freq, selected);
+        osc.connect(oscilloscope.analyserNode);
+        oscilloscope.start()
+
         if (play) {
             osc.toDestination().start();
         }
@@ -121,6 +133,7 @@
         <button on:click={downFreq}>down -1</button>
         <input class="range" type=range bind:value={freq} min=0 max=1000 on:change={changeFreq}>
     </p>
+    <div class="js-oscilloscope"></div>
 </main>
 
 <style>
@@ -146,5 +159,26 @@
         main {
             max-width: none;
         }
+
+        .js-oscilloscope {
+            width: 50%;
+        }
+    }
+
+    .js-oscilloscope > svg > path {
+        fill: none;
+
+        stroke: #000000;
+        stroke-width: 2px;
+    }
+
+    .js-oscilloscope {
+        width: 50%;
+        height: 400px;
+        max-height: 100%;
+        margin: 0 auto;
+        background-color: #f3f6fa;
+        border: solid 1px #dce6f0;
+        border-radius: 0.3rem;
     }
 </style>
