@@ -172,7 +172,7 @@
         }
 
         .js-oscilloscope {
-            width: 50%;
+            width: 100%;
         }
     }
 
