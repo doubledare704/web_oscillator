@@ -1,11 +1,12 @@
 <script>
 
-    import {FMSynth, AMSynth, Loop, Transport, Oscillator, context} from "tone";
+    import {FMSynth, AMSynth, Loop, Transport, Oscillator, context, Waveform, FFT, Meter, getContext} from "tone";
     import Oscilloscope from "../oscilloscope"
 
     let selected = "sine4", freq = 56, play = false, volume;
     let osc = new Oscillator(freq, selected);
     let oscilloscope;
+
     let oscTypesSine = ["sine1", "sine2", "sine3", "sine4", "sine5", "sine6", "sine7", "sine8", "sine9",
         "sine10", "sine11", "sine12", "sine13", "sine14", "sine15", "sine16", "sine17", "sine18", "sine19",
         "sine20", "sine21", "sine22", "sine23", "sine24", "sine25", "sine26", "sine27", "sine28", "sine29",
@@ -166,15 +167,7 @@
         width: 100%;
     }
 
-    @media (min-width: 320px) {
-        main {
-            max-width: none;
-        }
 
-        .js-oscilloscope {
-            width: 100%;
-        }
-    }
     .js-oscilloscope > svg > path {
         fill: none;
 
@@ -190,5 +183,18 @@
         background-color: #f3f6fa;
         border: solid 1px #dce6f0;
         border-radius: 0.3rem;
+    }
+
+    @media (min-width: 320px) {
+        main {
+            max-width: none;
+        }
+    }
+
+    @media screen and (max-width: 660px) {
+        .js-oscilloscope {
+            width: 100%;
+            height: 200px;
+        }
     }
 </style>
